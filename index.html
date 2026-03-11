@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise ENCompIFs (2021-2025)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .nav-link.active {
+            border-bottom: 2px solid #0f766e;
+            color: #0f766e;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans antialiased">
+
+    <!-- Chosen Palette: Warm neutrals (Stone) for background, Teal (0f766e) for primary accents/headers, Amber (f59e0b) for highlights. -->
+    <!-- Application Structure Plan: The application uses a single-page scrolling dashboard structure. It starts with a Hero section establishing context and methodology. The core is an interactive 'Explore' section featuring a Donut chart of the top 5 themes; clicking a slice updates a detail card with qualitative insights from the report. A secondary 'Trends' section uses a Line chart to visualize the temporal narrative (e.g., the recent spike in AI). Finally, a Conclusion section summarizes key takeaways. This structure transforms a linear academic text into an exploratory, user-driven data story. -->
+    <!-- Visualization & Content Choices: 1. Donut Chart (Chart.js) -> Goal: Show proportions of top themes -> Interaction: Click slice to load detailed text -> Justification: Intuitive way to present categorized data and act as a visual menu. 2. Line Chart (Chart.js) -> Goal: Illustrate temporal evolution -> Interaction: Hover tooltips -> Justification: Directly supports the text's claim about AI's recent dominance and Education's steady presence. 3. Dynamic Detail Card (HTML/JS) -> Goal: Present qualitative text clearly -> Interaction: Updates dynamically -> Justification: Avoids text overload, showing details only when requested. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-teal-700 tracking-tight">ENCompIFs<span class="text-amber-500">.</span>Data</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#contexto" class="nav-link text-stone-600 hover:text-teal-700 transition-colors px-1 py-2 text-sm font-medium">Contexto & Método</a>
+                    <a href="#temas" class="nav-link text-stone-600 hover:text-teal-700 transition-colors px-1 py-2 text-sm font-medium">Temas Principais</a>
+                    <a href="#tendencias" class="nav-link text-stone-600 hover:text-teal-700 transition-colors px-1 py-2 text-sm font-medium">Evolução</a>
+                    <a href="#conclusao" class="nav-link text-stone-600 hover:text-teal-700 transition-colors px-1 py-2 text-sm font-medium">Conclusão</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="contexto" class="pt-20 pb-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-stone-900 mb-4 tracking-tight">
+                    Pesquisa nos Institutos Federais: <br/>
+                    <span class="text-teal-700">Uma Análise do ENCompIFs (2021-2025)</span>
+                </h1>
+                <p class="text-xl text-stone-600 max-w-3xl mx-auto leading-relaxed">
+                    O que alunos e professores têm pesquisado e publicado no principal evento de computação da rede federal de educação tecnológica?
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-100 p-8 md:p-10 mb-8">
+                <h2 class="text-2xl font-bold text-stone-800 mb-4 border-l-4 border-amber-500 pl-4">Visão Geral e Metodologia</h2>
+                <p class="text-stone-600 mb-6 leading-relaxed">
+                    Esta seção introduz a motivação do estudo e como os dados foram coletados. O objetivo central é entender as tendências de pesquisa diante das rápidas mudanças tecnológicas, focando na aplicação prática dentro da rede federal.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="font-semibold text-teal-700 text-lg mb-2">O Contexto</h3>
+                        <p class="text-stone-600 leading-relaxed">
+                            O Congresso da Sociedade Brasileira de Computação (CSBC) é o evento mais importante da área no Brasil. Dentro dele, o ENCompIFs (Encontro Nacional de Computação dos Institutos Federais) destaca-se para quem estuda ou trabalha nos IFs. A tecnologia mudou muito rápido, e a intenção é ver se essas mudanças refletem nas publicações.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-teal-700 text-lg mb-2">A Coleta de Dados</h3>
+                        <p class="text-stone-600 leading-relaxed">
+                            A metodologia foi direta e manual. O levantamento foi feito na plataforma SBC OpenLib (SOL), filtrando as edições de 2021 a 2025. O processo envolveu a leitura de títulos, resumos (abstracts) e palavras-chave. Os trabalhos foram agrupados em categorias macro no Excel por similaridade, revelando os temas mais recorrentes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="temas" class="py-16 bg-stone-100 border-y border-stone-200 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl mx-auto">
+                <div class="mb-10 text-center">
+                    <h2 class="text-3xl font-bold text-stone-900 mb-4">Exploração Interativa dos Temas</h2>
+                    <p class="text-lg text-stone-600 max-w-2xl mx-auto">
+                        Nesta seção, você pode explorar as cinco áreas de pesquisa que mais se destacaram nos últimos cinco anos. Os dados refletem uma pesquisa muito voltada para a aplicação prática e sala de aula. <br/><span class="font-semibold text-teal-700">Interaja com o gráfico abaixo para revelar os detalhes de cada tema.</span>
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-stone-100">
+                        <h3 class="text-center font-semibold text-stone-700 mb-2">Distribuição Representativa dos Top 5 Temas</h3>
+                        <p class="text-center text-sm text-stone-500 mb-6">Clique nas fatias para ver a análise qualitativa.</p>
+                        <div class="chart-container">
+                            <canvas id="themesChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-md border border-teal-100 h-full flex flex-col justify-center relative overflow-hidden" id="detail-card">
+                        <div class="absolute top-0 left-0 w-2 h-full bg-teal-600 transition-colors duration-300" id="detail-indicator"></div>
+                        
+                        <div id="default-message" class="text-center text-stone-400 py-12">
+                            <span class="text-5xl block mb-4">&#9757;</span>
+                            <p class="text-lg font-medium">Selecione uma área no gráfico ao lado para ler os detalhes e observações.</p>
+                        </div>
+
+                        <div id="content-display" class="hidden fade-in pl-4">
+                            <div class="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-4" id="detail-badge"></div>
+                            <h3 class="text-3xl font-bold text-stone-800 mb-2" id="detail-title"></h3>
+                            <p class="text-lg font-medium text-teal-700 mb-6 pb-4 border-b border-stone-100" id="detail-focus"></p>
+                            <p class="text-stone-600 leading-relaxed text-lg" id="detail-desc"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tendencias" class="py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-stone-900 mb-4 border-l-4 border-amber-500 pl-4">A Evolução Temporal</h2>
+                <p class="text-lg text-stone-600">
+                    Esta visualização ilustra o comportamento descritivo extraído da análise: a Educação em Computação mantém-se como a base sólida do evento ao longo dos anos, enquanto a Inteligência Artificial apresenta um crescimento expressivo recente, tornando-se dominante a partir de 2023.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                <div class="chart-container">
+                    <canvas id="trendsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusao" class="py-16 bg-teal-800 text-teal-50 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-white mb-8">A "Cara" da Pesquisa nos Institutos Federais</h2>
+                <p class="text-lg text-teal-100 mb-8 leading-relaxed text-justify md:text-center">
+                    A catalogação evidenciou que, mesmo com o <em>hype</em> de novas tecnologias como a Inteligência Artificial, o foco da rede federal continua sendo <strong>resolver problemas da comunidade e melhorar a educação</strong>.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                    <div class="bg-teal-900/50 p-6 rounded-xl border border-teal-700/50">
+                        <span class="text-3xl block mb-2">&#127891;</span>
+                        <h4 class="font-bold text-white mb-2">Coração do Evento</h4>
+                        <p class="text-sm text-teal-200">A Educação em Computação continua sendo o pilar central das pesquisas e discussões.</p>
+                    </div>
+                    <div class="bg-teal-900/50 p-6 rounded-xl border border-teal-700/50">
+                        <span class="text-3xl block mb-2">&#128187;</span>
+                        <h4 class="font-bold text-white mb-2">IA e Tecnologias de Ponta</h4>
+                        <p class="text-sm text-teal-200">Pesquisadores pegam tecnologias avançadas (ML, IoT) e aplicam na realidade local, sala de aula e campo.</p>
+                    </div>
+                    <div class="bg-teal-900/50 p-6 rounded-xl border border-teal-700/50">
+                        <span class="text-3xl block mb-2">&#127758;</span>
+                        <h4 class="font-bold text-white mb-2">Retorno à Sociedade</h4>
+                        <p class="text-sm text-teal-200">A pesquisa em computação no cenário dos IFs mostra-se extremamente prática, acessível e focada no impacto social.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-900 text-stone-400 py-8 text-center border-t border-stone-800">
+        <div class="max-w-6xl mx-auto px-4">
+            <p class="text-sm mb-2">Baseado no relatório de análise dos anais do ENCompIFs (2021-2025).</p>
+            <p class="text-xs">Dados qualitativos extraídos via SBC OpenLib (SOL).</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeData = {
+            labels: [
+                'Educação em Computação', 
+                'Inteligência Artificial', 
+                'Internet das Coisas (IoT)', 
+                'Engenharia de Software', 
+                'Segurança da Informação'
+            ],
+            colors: ['#0f766e', '#f59e0b', '#0369a1', '#6b21a8', '#be123c'],
+            bgColors: ['rgba(15, 118, 110, 0.8)', 'rgba(245, 158, 11, 0.8)', 'rgba(3, 105, 161, 0.8)', 'rgba(107, 33, 168, 0.8)', 'rgba(190, 18, 60, 0.8)'],
+            hoverColors: ['#115e59', '#d97706', '#0284c7', '#7e22ce', '#e11d48'],
+            proportions: [35, 28, 17, 12, 8],
+            details: [
+                {
+                    title: "Educação em Computação",
+                    focus: "Ensino de programação, robótica na escola e evasão de alunos.",
+                    desc: "Por ser um evento de Institutos Federais, esse tema é gigantesco. Todo ano tem muita gente publicando sobre como melhorar o ensino de programação para quem está começando. Tem relatos de experiência com robótica educacional no ensino médio integrado, uso de jogos para ensinar lógica e estudos tentando entender por que os alunos desistem dos cursos de TI. É uma área de pesquisa muito forte na rede."
+                },
+                {
+                    title: "Inteligência Artificial (IA)",
+                    focus: "Machine Learning aplicado, previsão de dados e ferramentas de apoio.",
+                    desc: "Como era de se esperar, IA dominou bastante as publicações, principalmente de 2023 pra cá. Mas os artigos do ENCompIFs não costumam ser sobre criar modelos matemáticos super complexos do zero. A maioria foca em aplicar Machine Learning para resolver problemas reais. Tem muito artigo usando IA para prever notas de alunos, ajudar em diagnósticos médicos simples ou analisar dados de agricultura."
+                },
+                {
+                    title: "Internet das Coisas (IoT)",
+                    focus: "Automação, cidades inteligentes e monitoramento de ambientes.",
+                    desc: "A galera de redes e hardware costuma publicar muito aqui. Os artigos geralmente mostram protótipos montados com Arduino ou Raspberry Pi. Vi vários trabalhos sobre monitoramento de qualidade do ar, sistemas de irrigação automatizados para agricultura familiar e algumas ideias voltadas para acessibilidade e cidades inteligentes."
+                },
+                {
+                    title: "Engenharia de Software",
+                    focus: "Desenvolvimento ágil, qualidade de código e testes.",
+                    desc: "Junto com Segurança, forma a base técnica do evento. Na parte de Engenharia de Software, o foco é muito no uso de metodologias ágeis e em como melhorar a qualidade do que está sendo desenvolvido."
+                },
+                {
+                    title: "Segurança da Informação",
+                    focus: "Privacidade de dados, LGPD e detecção de ataques.",
+                    desc: "A quantidade de artigos sobre LGPD (Lei Geral de Proteção de Dados) cresceu bastante nos últimos anos, além de trabalhos focados em conscientizar usuários sobre golpes na internet e simulações de ataques em redes."
+                }
+            ]
+        };
+
+        const ctxThemes = document.getElementById('themesChart').getContext('2d');
+        const themesChart = new Chart(ctxThemes, {
+            type: 'doughnut',
+            data: {
+                labels: themeData.labels,
+                datasets: [{
+                    data: themeData.proportions,
+                    backgroundColor: themeData.bgColors,
+                    hoverBackgroundColor: themeData.hoverColors,
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, font: { family: 'ui-sans-serif, system-ui, sans-serif' } }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ' ' + context.label + ' (Representação)';
+                            }
+                        }
+                    }
+                },
+                onClick: (event, elements) => {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        updateDetailPanel(index);
+                    }
+                },
+                onHover: (event, elements) => {
+                    event.native.target.style.cursor = elements.length ? 'pointer' : 'default';
+                }
+            }
+        });
+
+        function updateDetailPanel(index) {
+            const data = themeData.details[index];
+            const color = themeData.colors[index];
+            const bgColor = themeData.bgColors[index];
+
+            document.getElementById('default-message').classList.add('hidden');
+            
+            const contentDisplay = document.getElementById('content-display');
+            contentDisplay.classList.remove('fade-in');
+            void contentDisplay.offsetWidth; 
+            
+            document.getElementById('detail-indicator').style.backgroundColor = color;
+            
+            const badge = document.getElementById('detail-badge');
+            badge.innerText = `Tema #${index + 1}`;
+            badge.style.backgroundColor = bgColor;
+            badge.style.color = '#fff';
+
+            document.getElementById('detail-title').innerText = data.title;
+            document.getElementById('detail-focus').innerText = `Foco: ${data.focus}`;
+            document.getElementById('detail-desc').innerText = data.desc;
+            
+            contentDisplay.classList.remove('hidden');
+            contentDisplay.classList.add('fade-in');
+        }
+
+        const ctxTrends = document.getElementById('trendsChart').getContext('2d');
+        new Chart(ctxTrends, {
+            type: 'line',
+            data: {
+                labels: ['2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: 'Inteligência Artificial',
+                        data: [10, 15, 35, 45, 50],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#f59e0b',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Educação em Computação',
+                        data: [40, 42, 38, 41, 39],
+                        borderColor: '#0f766e',
+                        backgroundColor: 'transparent',
+                        borderWidth: 3,
+                        borderDash: [5, 5],
+                        tension: 0.4,
+                        pointBackgroundColor: '#0f766e',
+                        pointRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { font: { family: 'ui-sans-serif, system-ui, sans-serif' } }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ' (Volume Relativo)';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        display: false 
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("href").includes(current) && current !== "") {
+                    link.classList.add("active");
+                }
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
